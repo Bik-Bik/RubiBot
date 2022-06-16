@@ -14,33 +14,44 @@ class Bot
         $this->client = new Client([
             'base_uri' => "https://api.telegram.org/bot$token/"
         ]);
+    }
 
+    private function botRequest(string $uri, array $query = [])
+    {
+        $params = [
+            'query' => $query
+        ];
+        $response = $this->client->get($uri, $params);
+        $json = json_decode($response->getBody()->getContents());
 
+        return $json;
     }
 
     public function sendMessage(string $message)
     {
-        $params = [
-            'query' => [
-                'chat_id' => $this->chatId,
-                'text' => $message
-            ]
-        ];
-        $this->client->get( "sendMessage", $params);
+        $this->botRequest("sendMessage", [
+            'chat_id' => $this->chatId,
+            'text' => $message
+        ]);
     }
 
     public function getUpdates()
     {
 
-        $response = $this->client->get("getUpdates");
-
-        $updates = json_decode($response->getBody()->getContents());
-
-        foreach ($updates->result as $result){
-            $user=$result->message->from->username;
-            $text=$result->message->text;
+        $updates = $this->botRequest("getUpdates");
+        $updateId = 0;
+        foreach ($updates->result as $result) {
+            $updateId = $result->update_id + 1;
+            $user = $result->message->from->username;
+            $text = $result->message->text;
             print "Nachricht von $user: $text\n";
+            if(strpos($text,"Marco")!==false){
+                $this->chatId= $result->message->chat->id;
+                $this->sendMessage("Polo!\n");
+            }
+
         }
+        $this->botRequest("getUpdates", ["offset" => $updateId]);
 
     }
 }

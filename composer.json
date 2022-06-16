@@ -1,0 +1,19 @@
+{
+  "name": "rubi/rubibot",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "rubi",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "rubi\\RubiBot\\": "src/"
+    }
+  }
+}

@@ -8,5 +8,7 @@ $config = json_decode(file_get_contents(__DIR__ . "/../config.json"));
 $bot=new Bot($config->bottoken);
 $bot->chatId=$config->chatId2;
 //$bot->sendMessage("Hallo! Ich wünsche dir einen wunderschönen Tag! Vergiss nicht, dankbar zu sein!!!\n",$config->chatId);
-
-$bot->getUpdates();
+while(true){
+    $bot->getUpdates();
+    sleep(5);
+}

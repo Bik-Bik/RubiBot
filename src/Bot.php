@@ -6,16 +6,15 @@ use GuzzleHttp\Client;
 
 class Bot
 {
-    private string $boturl;
     private Client $client;
     public int $chatId;
 
     public function __construct(string $token)
     {
-        $this->boturl = "https://api.telegram.org/bot$token/";
         $this->client = new Client([
-            'base_uri' => $this->boturl,
+            'base_uri' => "https://api.telegram.org/bot$token/"
         ]);
+
 
     }
 
